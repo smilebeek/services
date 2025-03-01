@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Services - Old Tashkent Hotel & SPA</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <style>
+    :root {
+      --primary-color: #007AFF;
+      --secondary-color: white;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      width: 90%;
+      max-width: 400px;
+      height: 95vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    /* HEADER */
+    .header {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 5vw;
+      padding: 12px;
+      border-radius: 15px;
+      text-align: center;
+      position: fixed;
+      top: 10px;
+      width: 90%;
+      max-width: 400px;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+    /* TABS */
+    .tab-container {
+      position: sticky;
+      top: 65px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto;
+      z-index: 999;
+      background-color: var(--primary-color);
+      padding: 8px 0;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+    .tab {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 3.5vw;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .tab.active {
+      background-color: #005fcc;
+      color: var(--secondary-color);
+    }
+    /* SCROLLABLE MIDDLE */
+    .content-container {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 100px;
+      padding-bottom: 20px;
+      background-color: var(--primary-color);
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+    .services-grid,
+    .restaurant-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      justify-content: center;
+      padding: 10px;
+    }
+    .service,
+    .restaurant-item {
+      background: var(--secondary-color);
+      color: var(--primary-color);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 3.5vw;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service:hover,
+    .restaurant-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 122, 255, 0.8);
+    }
+    .service i {
+      font-size: 30px;
+      margin-bottom: 10px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .restaurant-item img {
+      width: 100%;
+      height: 90px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    /* POPUPS (SERVICE, WIFI, RESTAURANT, SPA IMAGE) */
+    .popup {
+      position: fixed;
+      bottom: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      background: var(--secondary-color);
+      color: var(--primary-color);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+      transition: bottom 0.4s ease-in-out;
+      z-index: 2000;
+      overflow-y: auto;
+      max-height: 80vh; /* increased to 80% so long text is visible */
+    }
+    .popup.active {
+      bottom: 10px;
+    }
+    .popup h2 {
+      font-size: 4vw;
+      margin-bottom: 10px;
+    }
+    .popup p {
+      font-size: 3.5vw;
+      margin-top: 10px;
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .contact-info div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      padding: 10px;
+      border-radius: 10px;
+      width: 80%;
+      font-size: 3.5vw;
+      font-weight: bold;
+    }
+    /* IRONING TABLE placeholder */
+    #ironing-price-list {
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+    /* SPA GALLERY + DESCRIPTION placeholders */
+    #spa-gallery {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    /* Make spa images bigger by default */
+    #spa-gallery img {
+      width: 150px;
+      height: 100px;
+      border-radius: 5px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    #spa-description {
+      font-size: 3.5vw;
+      margin-top: 10px;
+    }
+    /* This new container will hold your red message for each service */
+    #service-red-message {
+      margin-top: 10px;
+      font-size: 3.5vw;
+      font-weight: bold;
+      color: red; /* All red text */
+    }
+    .close-btn {
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      border: none;
+      padding: 8px 15px;
+      font-size: 3.5vw;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+    .close-btn:hover {
+      background-color: #005fcc;
+    }
+    .order-btn {
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      border: none;
+      padding: 10px 20px;
+      font-size: 4vw;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+    .order-btn:hover {
+      background: #005fcc;
+    }
+    .food-image {
+      width: 100%;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      background-color: white;
+      padding: 10px;
+      border-radius: 15px;
+      position: fixed;
+      bottom: 10px;
+      width: 90%;
+      max-width: 400px;
+      z-index: 1000;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #007aff;
+      font-weight: bold;
+      padding: 10px 3vw;
+      border-radius: 10px;
+      transition: 0.3s;
+      font-size: 4vw;
+      text-shadow: 0 0 5px rgba(0, 122, 255, 0.8);
+    }
+    .navbar a:hover {
+      background-color: #007aff;
+      color: white;
+      box-shadow: 0 0 10px rgba(0, 122, 255, 0.8);
+    }
+    /* SPA IMAGE POPUP for big view */
+    .spa-image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000; /* above everything */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .spa-image-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .spa-image-overlay img {
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .spa-image-overlay .close-overlay {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 6vw;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        max-width: 95%;
+      }
+      .header {
+        font-size: 6vw;
+        padding: 10px;
+        width: 95%;
+        max-width: 95%;
+      }
+      .navbar {
+        width: 95%;
+        max-width: 95%;
+      }
+      .navbar a {
+        font-size: 4vw;
+        padding: 8px 2vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">SERVICES</header>
+
+
+
+    <main class="content-container">
+      <!-- SERVICES GRID -->
+      <section id="services" class="services-grid">
+        <!-- CITY TOUR -->
+        <div
+          class="service"
+          onclick="openPopup('CITY TOUR', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-bus"></i> CITY TOUR
+        </div>
+        <!-- LAUNDRY SERVICE (with table) -->
+        <div
+          class="service"
+          onclick="openPopup('LAUNDRY SERVICE', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-bath"></i> LAUNDRY SERVICE
+        </div>
+        <!-- WI-FI -->
+        <div class="service" onclick="openWifiPopup()">
+          <i class="fas fa-wifi"></i> WI-FI
+        </div>
+        <!-- ROOM CLEANING -->
+        <div
+          class="service"
+          onclick="openPopup('ROOM CLEANING', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-broom"></i> ROOM CLEANING
+        </div>
+        <!-- LUGGAGE ASSISTANCE -->
+        <div
+          class="service"
+          onclick="openPopup('LUGGAGE ASSISTANCE', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-suitcase-rolling"></i> LUGGAGE ASSISTANCE
+        </div>
+        <!-- AIRPORT TRANSFER -->
+        <div
+          class="service"
+          onclick="openPopup('AIRPORT TRANSFER', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-plane"></i> AIRPORT TRANSFER
+        </div>
+        <!-- RESTAURANT RESERVATION -->
+        <div
+          class="service"
+          onclick="openPopup('RESTAURANT RESERVATION', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-utensils"></i> RESTAURANT RESERVATION
+        </div>
+        <!-- SPA BOOKING -->
+        <div
+          class="service"
+          onclick="openPopup('SPA BOOKING', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-spa"></i> SPA BOOKING
+        </div>
+        <!-- CAR RENTAL -->
+        <div
+          class="service"
+          onclick="openPopup('CAR RENTAL', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-car"></i> CAR RENTAL
+        </div>
+
+        <!-- MEDICAL ASSISTANCE -->
+        <div
+          class="service"
+          onclick="openPopup('MEDICAL ASSISTANCE', '@oldtashkenthhotel', '+998971234567', '#100')"
+        >
+          <i class="fas fa-briefcase-medical"></i> MEDICAL ASSISTANCE
+        </div>
+      </section>
+
+      <!-- RESTAURANT GRID (hidden by default) -->
+      <!-- ... everything before remains the same ... -->
+
+
+    </main>
+
+    <!-- NAVBAR -->
+
+    <!-- POPUP FOR SERVICES -->
+    <div class="popup" id="popup">
+      <h2 id="popup-title">Service Name</h2>
+
+      <!-- Red message text unique to each service -->
+      <div id="service-red-message"></div>
+
+      <!-- Table for LAUNDRY SERVICE -->
+      <div id="ironing-price-list"></div>
+
+      <!-- SPA GALLERY + DESCRIPTION -->
+      <div id="spa-gallery"></div>
+      <p id="spa-description"></p>
+
+      <!-- Contacts -->
+      <div class="contact-info">
+        <div>
+          <i class="fab fa-telegram"></i> <span id="contact1"></span>
+        </div>
+        <div>
+          <i class="fab fa-whatsapp"></i> <span id="contact2"></span>
+        </div>
+        <div>
+          <i class="fas fa-phone"></i> <span id="contact3"></span>
+        </div>
+      </div>
+      <p>
+        You can write or call with these options. Soon, we will update our
+        program for your comfort...
+      </p>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- POPUP FOR WIFI -->
+    <div class="popup" id="wifi-popup">
+      <h2>WI-FI</h2>
+      <p>PASSWORD: <strong>ocenacrossed</strong></p>
+      <div class="qr-code">
+        <img src="img_5.png" alt="QR Code" />
+      </div>
+      <button class="close-btn" onclick="closeWifiPopup()">Close</button>
+    </div>
+
+    <!-- POPUP FOR RESTAURANT ITEMS -->
+
+
+  <!-- SPA IMAGE OVERLAY FOR ENLARGED VIEW -->
+  <div class="spa-image-overlay" id="spaImageOverlay">
+    <button class="close-overlay" onclick="closeSpaImage()">&times;</button>
+    <img id="spaLargeImage" src="" alt="SPA Large" />
+  </div>
+
+  <script>
+    function showTab(tabName) {
+      // Show/hide the services or restaurant grid
+      document.getElementById("services").style.display =
+        tabName === "services" ? "grid" : "none";
+      document.getElementById("restaurant").style.display =
+        tabName === "restaurant" ? "grid" : "none";
+
+      // Update tab active class
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach((t) => t.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+
+    function openPopup(serviceName, contact1, contact2, contact3) {
+      // Set popup title
+      document.getElementById("popup-title").innerText = serviceName;
+
+      // Clear the dynamic fields
+      document.getElementById("service-red-message").innerHTML = "";
+      document.getElementById("ironing-price-list").innerHTML = "";
+      document.getElementById("spa-gallery").innerHTML = "";
+      document.getElementById("spa-description").innerText = "";
+
+      // Set contact links
+      document.getElementById("contact1").innerHTML = `
+        <a
+          href="https://t.me/oldtashkenthotel"
+          target="_blank"
+          style="color: white; text-decoration: none; font-weight: bold;"
+        >@OldTashkentHotel</a>`;
+      document.getElementById("contact2").innerHTML = `
+        <a
+          href="https://wa.me/qr/6PC2FUU2MUCZM1"
+          target="_blank"
+          style="color: white; text-decoration: none; font-weight: bold;"
+        >998978795777</a>`;
+      document.getElementById("contact3").innerText = contact3;
+
+      // Insert the red message depending on the service
+      let redMessage = "";
+      switch (serviceName) {
+        case "CITY TOUR":
+          redMessage = "Any time you can write to call to the reception and will give you information about city tour.";
+          break;
+        case "ROOM CLEANING":
+          redMessage = "Any time you can tell us , our room cleaning service is 24/7";
+          break;
+        case "LUGGAGE ASSISTANCE":
+          redMessage = "Any time you can put your baggage. Room for the baggage is in the 1st floor near to the reception";
+          break;
+        case "AIRPORT TRANSFER":
+          redMessage = "Price of the airport transfer starts from 20$. Actually it depends on the number of the people. More information on the reception...";
+          break;
+        case "CAR RENTAL":
+          redMessage = "Any time you can ask from the reception they will help you.";
+          break;
+        case "MEDICAL ASSISTANCE":
+          redMessage = "We don't have any medical assistance but any time we can call for you. Just ask from the reception!";
+          break;
+        default:
+          // If not one of the above, you can set a default or leave empty
+          redMessage = "";
+          break;
+      }
+      // Display the red message
+      if (redMessage) {
+        document.getElementById("service-red-message").innerHTML = redMessage;
+      }
+
+      // If user tapped "LAUNDRY SERVICE", show the table
+      if (serviceName === "LAUNDRY SERVICE") {
+        document.getElementById("ironing-price-list").innerHTML = `
+          <table style="width:100%; border-collapse:collapse; color:red; background-color:white; border-radius:5px;">
+            <thead style="background:#e8e8e8; font-weight:bold;">
+              <tr>
+                <th style="border:1px solid #ccc; padding:5px;">No</th>
+                <th style="border:1px solid #ccc; padding:5px;">Description</th>
+                <th style="border:1px solid #ccc; padding:5px;">Laundry &amp; Ironing</th>
+                <th style="border:1px solid #ccc; padding:5px;">Ironing Only</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">1</td>
+                <td style="border:1px solid #ccc; padding:5px;">Trousers</td>
+                <td style="border:1px solid #ccc; padding:5px;">12000</td>
+                <td style="border:1px solid #ccc; padding:5px;">5000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">2</td>
+                <td style="border:1px solid #ccc; padding:5px;">Jeans</td>
+                <td style="border:1px solid #ccc; padding:5px;">12000</td>
+                <td style="border:1px solid #ccc; padding:5px;">5000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">3</td>
+                <td style="border:1px solid #ccc; padding:5px;">Skirt, Shorts</td>
+                <td style="border:1px solid #ccc; padding:5px;">12000</td>
+                <td style="border:1px solid #ccc; padding:5px;">5000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">4</td>
+                <td style="border:1px solid #ccc; padding:5px;">Undershirts</td>
+                <td style="border:1px solid #ccc; padding:5px;">10000</td>
+                <td style="border:1px solid #ccc; padding:5px;">4000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">5</td>
+                <td style="border:1px solid #ccc; padding:5px;">Blouse, Shirt</td>
+                <td style="border:1px solid #ccc; padding:5px;">12000</td>
+                <td style="border:1px solid #ccc; padding:5px;">5000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">6</td>
+                <td style="border:1px solid #ccc; padding:5px;">Dress</td>
+                <td style="border:1px solid #ccc; padding:5px;">14000</td>
+                <td style="border:1px solid #ccc; padding:5px;">6000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">7</td>
+                <td style="border:1px solid #ccc; padding:5px;">Sweater, knitted jacket</td>
+                <td style="border:1px solid #ccc; padding:5px;">14000</td>
+                <td style="border:1px solid #ccc; padding:5px;">6000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">8</td>
+                <td style="border:1px solid #ccc; padding:5px;">Jacket</td>
+                <td style="border:1px solid #ccc; padding:5px;">20000</td>
+                <td style="border:1px solid #ccc; padding:5px;">10000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">9</td>
+                <td style="border:1px solid #ccc; padding:5px;">Casual clothing, overalls</td>
+                <td style="border:1px solid #ccc; padding:5px;">12000</td>
+                <td style="border:1px solid #ccc; padding:5px;">5000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">10</td>
+                <td style="border:1px solid #ccc; padding:5px;">Nightgown</td>
+                <td style="border:1px solid #ccc; padding:5px;">7000</td>
+                <td style="border:1px solid #ccc; padding:5px;">3000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">11</td>
+                <td style="border:1px solid #ccc; padding:5px;">Pajama</td>
+                <td style="border:1px solid #ccc; padding:5px;">7000</td>
+                <td style="border:1px solid #ccc; padding:5px;">3000</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">12</td>
+                <td style="border:1px solid #ccc; padding:5px;">Underclothes</td>
+                <td style="border:1px solid #ccc; padding:5px;">4000</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">13</td>
+                <td style="border:1px solid #ccc; padding:5px;">Underpants</td>
+                <td style="border:1px solid #ccc; padding:5px;">4000</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">14</td>
+                <td style="border:1px solid #ccc; padding:5px;">Bra</td>
+                <td style="border:1px solid #ccc; padding:5px;">4000</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">15</td>
+                <td style="border:1px solid #ccc; padding:5px;">Socks</td>
+                <td style="border:1px solid #ccc; padding:5px;">2000</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">16</td>
+                <td style="border:1px solid #ccc; padding:5px;">Tights</td>
+                <td style="border:1px solid #ccc; padding:5px;">2000</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+              <tr>
+                <td style="border:1px solid #ccc; padding:5px;">17</td>
+                <td style="border:1px solid #ccc; padding:5px;">Handkerchief</td>
+                <td style="border:1px solid #ccc; padding:5px;">1500</td>
+                <td style="border:1px solid #ccc; padding:5px;">-</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      }
+      // If "SPA BOOKING", show 3 images + explanation
+      else if (serviceName === "SPA BOOKING") {
+        document.getElementById("spa-gallery").innerHTML = `
+          <img src="img_10.png" alt="Spa 1" onclick="openSpaImage('img_10.png')" />
+          <img src="img_12.png" alt="Spa 2" onclick="openSpaImage('img_12.png')" />
+          <img src="img_11.png" alt="Spa 3" onclick="openSpaImage('img_11.png')" />
+        `;
+        document.getElementById("spa-description").innerText =
+          "The price of the SPA is not included to the price of the hotel room. It costs 15$ for one hour for one person";
+      }
+
+      // Show popup
+      document.getElementById("popup").classList.add("active");
+    }
+
+    function closePopup() {
+      document.getElementById("popup").classList.remove("active");
+    }
+
+    function openWifiPopup() {
+      document.getElementById("wifi-popup").classList.add("active");
+    }
+
+    function closeWifiPopup() {
+      document.getElementById("wifi-popup").classList.remove("active");
+    }
+
+    function openRestaurantPopup(title, description, price, imageSrc) {
+      document.getElementById("restaurant-title").innerText = title;
+      document.getElementById("restaurant-description").innerText = description;
+      document.getElementById("restaurant-price").innerText = `PRICE: ${price}`;
+      document.getElementById("restaurant-image").src = imageSrc;
+      document.getElementById("restaurant-popup").classList.add("active");
+    }
+
+    function closeRestaurantPopup() {
+      document.getElementById("restaurant-popup").classList.remove("active");
+    }
+
+    function orderFood() {
+      alert("Call #100 to place your order.");
+    }
+
+    /* SPA IMAGE ENLARGED OVERLAY */
+    function openSpaImage(src) {
+      const overlay = document.getElementById("spaImageOverlay");
+      const largeImg = document.getElementById("spaLargeImage");
+      largeImg.src = src;
+      overlay.classList.add("active");
+    }
+    function closeSpaImage() {
+      document.getElementById("spaImageOverlay").classList.remove("active");
+    }
+  </script>
+</body>
+</html>
+
